@@ -1,0 +1,121 @@
+<html>
+
+    <head>
+        <title>Assingnment</title>
+
+        <link rel="stylesheet" href="./static/mystyle.css">
+        
+        <script type="text/javascript">
+
+            function movetoNext(current) {
+                var nextFieldID = String(Number(current.id) + 1)
+                var prevFieldID = String(Number(current.id) - 1)
+
+
+
+
+
+                if (current.value.length >= current.maxLength) {
+
+                    if (current.id == "4") {
+                        document.getElementById('btn').focus()
+                        current.value = current.value.slice(0, 4);
+                    } else {
+                        document.getElementById(nextFieldID).focus();
+                        current.value = current.value.slice(0, 4);
+                    }
+                } else if (current.value.length == 0 && nextFieldID != "2") {
+                    document.getElementById(prevFieldID).focus();
+                }
+            }
+
+            function pasteit() {
+                navigator.clipboard.readText().then(clipText = (paste) => {
+
+                    var id = 0;
+                    for (var i = 1; i <= 4; i++) {
+
+                        if (id + 4 <= 16) {
+                            document.getElementById(String(i)).value = paste.slice(id, id + 4);
+                            id += 4;
+                        }
+
+                    }
+                });
+
+
+            }
+
+
+
+
+            function getData(){
+                fetch("http://localhost/php/server.php").then(response => response.json()).then(kuch =(data)=> {
+                    data.forEach(func=>document.getElementById("creditCards").innerHTML+=`<li>${func}<li>`)
+                })
+            }
+            // document.getElementById("1").addEventListener("click", function () {
+            //     document.getElementById("display").value = "";
+            //     var paste = "";
+            //     navigator.clipboard.readText().then(clipText => paste = clipText);
+            //     console.log(paste);
+
+            // })
+
+
+
+
+
+        </script>
+    </head>
+
+    <body>
+
+        <ul style="list-style-type:circle;" id="creditCards">
+
+        </ul>
+        <button type="button" onclick="getData()">Fetch</button>
+        <form action="#" onsubmit="alert('Submitted')" id="form">
+            <b>Card Number</b>
+
+            <input type="number" id="1" class="w"  size="4" name="1" onkeyup="movetoNext(this)" onpaste="pasteit()" maxlength="4" required/>
+            <input type="number" id="2" class="w" size="4" name="2" onkeyup="movetoNext(this)" onpaste="pasteit()" maxlength="4" required/>
+            <input type="number" id="3" class="w" size="4" name="3" onkeyup="movetoNext(this)" onpaste="pasteit()" maxlength="4" required/>
+            <input type="number" id="4" class="w" size="4" name="4" onkeyup="movetoNext(this)" onpaste="pasteit()" maxlength="4" required/>
+            <input type="submit" class="q" id="btn" />
+
+        </form>
+
+        <script type="text/javascript">
+
+            // const target = document.querySelector('#1');
+
+            // target.addEventListener('paste', (event) => {
+            //     let paste = (event.clipboardData || window.clipboardData).getData('text');
+            //     console.log(paste);
+            //     let id = 1;
+            //     for (var i = 0; i < paste.length; i + 4) {
+            //         if (i + 4 <= paste.length) {
+            //             document.getElementById(String(id)).value = paste.slice(i, i + 4);
+            //             id += 1;
+            //         }
+            //     }
+
+
+            //     document.getElementById("4").focus()
+            // })
+
+
+
+
+            // document.getElementById("1").addEventListener("paste", function () {
+
+            //     var paste = "";
+            //     navigator.clipboard.readText().then(clipText => paste = clipText);
+            //     console.log(paste);
+
+            // })
+        </script>
+    </body>
+
+</html>
